@@ -1,21 +1,26 @@
 package com.example.flixster.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.flixster.DetailActivity;
 import com.example.flixster.R;
 import com.example.flixster.models.Movie;
 
 import org.jetbrains.annotations.NotNull;
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -35,46 +40,45 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         this.movies = movies;
     }
 
-    //Usually involves inflating a layout from XML and returning the holder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         //create the movie view
-        //View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
-        //return new ViewHolder(movieView);
+        View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
+        return new ViewHolder(movieView);
 
         /**
-         * create the movie view include the popular movie
+         * popular movie create the movie view include the popular movie
          */
-        View movieView;
-        //on the portrait mode, get the popular view
-        if (viewType == POPULAR && context.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            movieView = LayoutInflater.from(context).inflate(R.layout.item_movie_popular, parent,false);
-            return new MovieAdapter.ViewHolderPopular(movieView);
-        } else {
-            movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
-            return new MovieAdapter.ViewHolder(movieView);
-        }
+//        View movieView;
+//        //on the portrait mode, get the popular view
+//        if (viewType == POPULAR && context.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+//            movieView = LayoutInflater.from(context).inflate(R.layout.item_movie_popular, parent,false);
+//            return new MovieAdapter.ViewHolderPopular(movieView);
+//        } else {
+//            movieView = LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false);
+//            return new MovieAdapter.ViewHolder(movieView);
+//        }
     }
 
     //Involves populating data into the item through holder(take the data at the position and put in the view holder)
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         //get the movie at the passed in position
-        //Movie movie = movies.get(position);
+        Movie movie = movies.get(position);
         //bind the movie data into the viewHolder
-        //holder.bind(movie);
+        holder.bind(movie);
 
         /**
-         * bind the popular view together
+         * popular movie: bind the popular view together
         * */
-        Movie movie = movies.get(position);
-        if (holder.getItemViewType() == ORDINARY || context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            holder.bind(movie);
-        } else {
-            MovieAdapter.ViewHolderPopular holderPopular = (MovieAdapter.ViewHolderPopular) holder;
-            holderPopular.bind_popular(movie);
-        }
+//        Movie movie = movies.get(position);
+//        if (holder.getItemViewType() == ORDINARY || context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            holder.bind(movie);
+//        } else {
+//            MovieAdapter.ViewHolderPopular holderPopular = (MovieAdapter.ViewHolderPopular) holder;
+//            holderPopular.bind_popular(movie);
+//        }
     }
 
     //get the view type
@@ -99,6 +103,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     //viewHolder is the represent the row of the recycle view.
     public class ViewHolder extends RecyclerView.ViewHolder {
         //define the each view in the view holder
+        RelativeLayout container;
         TextView tvTitle;
         TextView tvOverview;
         ImageView ivPoster;
@@ -109,6 +114,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverview = itemView.findViewById(R.id.tvOverview);
             ivPoster = itemView.findViewById(R.id.ivPoster);
+            container = itemView.findViewById(R.id.contanier);
         }
 
         public void bind(Movie movie) {
@@ -123,20 +129,36 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
                 imageUrl = movie.getPosterPath();
             }
             Glide.with(context).load(imageUrl).into(ivPoster);
+
+            //1. register click to a new activity on tap
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //2. navigate to a new activity on tab
+                    //use intent to navigate the other activity
+                    Intent i = new Intent(context, DetailActivity.class);
+                    //parcel/pass the whole movie object to the other activity
+                    i.putExtra("movie", Parcels.wrap(movie));
+                    context.startActivity(i);
+
+                }
+            });
         }
     }
 
-    //create another viewHolder for the popular movie
-    public class ViewHolderPopular extends MovieAdapter.ViewHolder {
-        ImageView ivPoster;
-
-        public ViewHolderPopular(@NonNull View itemView) {
-            super(itemView);
-            this.ivPoster = itemView.findViewById(R.id.ivPoster);
-        }
-
-        public void bind_popular(final Movie movie) {
-            Glide.with(context).load(movie.getBackdropPath()).into(ivPoster);
-        }
-    }
+    /**
+     * popular movie: create another viewHolder for the popular movie
+     * */
+//    public class ViewHolderPopular extends MovieAdapter.ViewHolder {
+//        ImageView ivPoster;
+//
+//        public ViewHolderPopular(@NonNull View itemView) {
+//            super(itemView);
+//            this.ivPoster = itemView.findViewById(R.id.ivPoster);
+//        }
+//
+//        public void bind_popular(final Movie movie) {
+//            Glide.with(context).load(movie.getBackdropPath()).into(ivPoster);
+//        }
+//    }
 }
