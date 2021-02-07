@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/contanier"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FC020307">
@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/ivPoster"
         android:layout_width="120dp"
-        android:layout_height="wrap_content"
+        android:layout_height="170dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="0dp"
@@ -27,7 +27,8 @@
         android:textColor="#F5FAFBFB"
         android:textSize="21sp"
         android:textStyle="bold"
-        tools:text="Wonder Woman 1984" />
+        tools:text="Wonder Woman 1984"
+        android:transitionName="title"/>
 
     <TextView
         android:id="@+id/tvOverview"

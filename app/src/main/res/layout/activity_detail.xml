@@ -20,7 +20,8 @@
         android:textSize="34sp"
         tools:text="Wonder Woman 1984"
         android:fontFamily="monospace"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:transitionName="title"/>
 
     <RatingBar
         android:id="@+id/ratingBar"

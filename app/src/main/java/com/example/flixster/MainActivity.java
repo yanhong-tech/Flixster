@@ -10,6 +10,7 @@ import android.util.Log;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.flixster.adapters.MovieAdapter;
+import com.example.flixster.adapters.PopularMovieAdapter;
 import com.example.flixster.models.Movie;
 
 import org.json.JSONArray;
@@ -37,8 +38,16 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView rvMovies = findViewById(R.id.rvMovies);
         movies = new ArrayList<>();
 
-        //create the Adapter
+        /**
+         * movie adapter
+        * */
         MovieAdapter movieAdapter = new MovieAdapter(this, movies);
+        /**
+         * popular movie adapter
+         * */
+//        PopularMovieAdapter movieAdapter = new PopularMovieAdapter(this, movies);
+
+
         //Set the adapter on the recycle view
         rvMovies.setAdapter(movieAdapter);
         //Set a layout Manager on the recycle view
