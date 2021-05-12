@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //this is just for test
+        //this is another test
         //Set the adapter on the recycle view
         rvMovies.setAdapter(movieAdapter);
         //Set a layout Manager on the recycle view
