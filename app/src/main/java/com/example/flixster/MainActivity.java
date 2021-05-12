@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 //        PopularMovieAdapter movieAdapter = new PopularMovieAdapter(this, movies);
 
 
+        //this is just for test
         //Set the adapter on the recycle view
         rvMovies.setAdapter(movieAdapter);
         //Set a layout Manager on the recycle view
